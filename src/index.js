@@ -14,7 +14,7 @@ function refreshWeather(response) {
   humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
   windSpeedElement.innerHTML = ` ${response.data.wind.speed} km/h`;
   timeElement.innerHTML = formatDate(date);
-  //console.log(response.data);
+  console.log(response.data);
 }
 function formatDate(date) {
   let minutes = date.getMinutes();
