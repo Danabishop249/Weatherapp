@@ -17,7 +17,9 @@ function refreshWeather(response) {
   timeElement.innerHTML = formatDate(date);
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}"class="weather-app-icon"/>`;
   //console.log(response.data);
+  getForecast(response.data.city);
 }
+
 function formatDate(date) {
   let minutes = date.getMinutes();
   let hours = date.getHours();
@@ -54,8 +56,43 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 
+function getForecast(city) {
+  let apiKey = "aeb5f974f5fbo4929b0t4d7036cd803d";
+  let apiURL = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  //console.log(apiURL);
+  axios(apiURL).then(displayForecast);
+}
+
+function displayForecast(response) {
+  console.log(response.data);
+
+  let forecastElement = document.querySelector("#forecast");
+  let days = ["Tue", "Wed", "Thur", "Fri", "Sat"];
+  let forecastHTML = "";
+
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+    <div class="weather-forecast-day">
+    <div class="weather-forecast-date">${day}</div>
+    <div class="weather-forecast-icon">⛅</div>
+    <div class="weather-forecast-temperatures">
+    <div class="weather-forecast-temperature">
+    <strong>15° </strong>
+     </div>
+    <div class="weather-forecast-temperature"> 9°</div>
+    </div>
+    </div>
+    `;
+  });
+
+  forecastElement.innerHTML = forecastHTML;
+}
+
 let searchFormElement = document.querySelector("#search-form");
 //console.log(searchFormElement);
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Lisbon");
+//displayForecast();
